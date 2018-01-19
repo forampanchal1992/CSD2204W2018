@@ -1,0 +1,284 @@
+MariaDB [(none)]> use csd2204w18;
+Database changed
+MariaDB [csd2204w18]> select * from products;
++------+-----------------+-------+--------------+
+| Code | Name            | Price | Manufacturer |
++------+-----------------+-------+--------------+
+|    1 | Hard drive      |   240 |            5 |
+|    2 | Memory          |   120 |            6 |
+|    3 | ZIP drive       |   150 |            4 |
+|    4 | Floppy disk     |     5 |            6 |
+|    5 | Monitor         |   240 |            1 |
+|    6 | DVD drive       |   180 |            2 |
+|    7 | CD drive        |    90 |            2 |
+|    8 | Printer         |   270 |            3 |
+|    9 | Toner cartridge |    66 |            3 |
+|   10 | DVD burner      |   180 |            2 |
+|   11 | Printer         |    40 |            7 |
+|   12 | Toner cartridge |    54 |            7 |
+|   13 | DVD burner      |    78 |            7 |
++------+-----------------+-------+--------------+
+13 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> ceate view d10_v1 select * from products;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'ceate view d10_v1 select * from products' at line 1
+MariaDB [csd2204w18]> ceate view d10_v1 as select * from products;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'ceate view d10_v1 as select * from products' at line 1
+MariaDB [csd2204w18]> create view d10_v1 as select * from products;
+Query OK, 0 rows affected (0.22 sec)
+
+MariaDB [csd2204w18]> desc products;
++--------------+---------------+------+-----+---------+----------------+
+| Field        | Type          | Null | Key | Default | Extra          |
++--------------+---------------+------+-----+---------+----------------+
+| Code         | int(3)        | NO   | PRI | NULL    | auto_increment |
+| Name         | varchar(255)  | NO   |     | NULL    |                |
+| Price        | decimal(10,0) | NO   |     | NULL    |                |
+| Manufacturer | int(3)        | YES  | MUL | NULL    |                |
++--------------+---------------+------+-----+---------+----------------+
+4 rows in set (0.02 sec)
+
+MariaDB [csd2204w18]> show tables;
++----------------------+
+| Tables_in_csd2204w18 |
++----------------------+
+| animals              |
+| c1                   |
+| citymaster           |
+| countries            |
+| customers            |
+| d10_v1               |
+| departments          |
+| employees            |
+| j3                   |
+| job_history          |
+| jobs                 |
+| locations            |
+| manu                 |
+| p1                   |
+| persons              |
+| pet                  |
+| products             |
+| regions              |
++----------------------+
+18 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> select * from d10_v1;
++------+-----------------+-------+--------------+
+| Code | Name            | Price | Manufacturer |
++------+-----------------+-------+--------------+
+|    1 | Hard drive      |   240 |            5 |
+|    2 | Memory          |   120 |            6 |
+|    3 | ZIP drive       |   150 |            4 |
+|    4 | Floppy disk     |     5 |            6 |
+|    5 | Monitor         |   240 |            1 |
+|    6 | DVD drive       |   180 |            2 |
+|    7 | CD drive        |    90 |            2 |
+|    8 | Printer         |   270 |            3 |
+|    9 | Toner cartridge |    66 |            3 |
+|   10 | DVD burner      |   180 |            2 |
+|   11 | Printer         |    40 |            7 |
+|   12 | Toner cartridge |    54 |            7 |
+|   13 | DVD burner      |    78 |            7 |
++------+-----------------+-------+--------------+
+13 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> select * from d10_v1 where Code > 6;
++------+-----------------+-------+--------------+
+| Code | Name            | Price | Manufacturer |
++------+-----------------+-------+--------------+
+|    7 | CD drive        |    90 |            2 |
+|    8 | Printer         |   270 |            3 |
+|    9 | Toner cartridge |    66 |            3 |
+|   10 | DVD burner      |   180 |            2 |
+|   11 | Printer         |    40 |            7 |
+|   12 | Toner cartridge |    54 |            7 |
+|   13 | DVD burner      |    78 |            7 |
++------+-----------------+-------+--------------+
+7 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> select * from d10_v1 where name like 'T%';
++------+-----------------+-------+--------------+
+| Code | Name            | Price | Manufacturer |
++------+-----------------+-------+--------------+
+|    9 | Toner cartridge |    66 |            3 |
+|   12 | Toner cartridge |    54 |            7 |
++------+-----------------+-------+--------------+
+2 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> select * from d10_v1 where name like 'T%' and code >9;
++------+-----------------+-------+--------------+
+| Code | Name            | Price | Manufacturer |
++------+-----------------+-------+--------------+
+|   12 | Toner cartridge |    54 |            7 |
++------+-----------------+-------+--------------+
+1 row in set (0.00 sec)
+
+MariaDB [csd2204w18]> select * from d10_v1 where name like 'T%' and code >= 9;
++------+-----------------+-------+--------------+
+| Code | Name            | Price | Manufacturer |
++------+-----------------+-------+--------------+
+|    9 | Toner cartridge |    66 |            3 |
+|   12 | Toner cartridge |    54 |            7 |
++------+-----------------+-------+--------------+
+2 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> select * from d10_v1 where name like '__e%' and code >= 9;
+Empty set (0.00 sec)
+
+MariaDB [csd2204w18]> select * from d10_v1 where name like '%e%' and code >= 9;
++------+-----------------+-------+--------------+
+| Code | Name            | Price | Manufacturer |
++------+-----------------+-------+--------------+
+|    9 | Toner cartridge |    66 |            3 |
+|   10 | DVD burner      |   180 |            2 |
+|   11 | Printer         |    40 |            7 |
+|   12 | Toner cartridge |    54 |            7 |
+|   13 | DVD burner      |    78 |            7 |
++------+-----------------+-------+--------------+
+5 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> desc d10_v1;
++--------------+---------------+------+-----+---------+-------+
+| Field        | Type          | Null | Key | Default | Extra |
++--------------+---------------+------+-----+---------+-------+
+| Code         | int(3)        | NO   |     | 0       |       |
+| Name         | varchar(255)  | NO   |     | NULL    |       |
+| Price        | decimal(10,0) | NO   |     | NULL    |       |
+| Manufacturer | int(3)        | YES  |     | NULL    |       |
++--------------+---------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> insert into d10_v1 (Code,Name,Price,Manufacturer) values (14,CD Drive,20,2);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Drive,20,2)' at line 1
+MariaDB [csd2204w18]> insert into d10_v1 (Code,Name,Price,Manufacturer) values (14,CD Drive,20.0,2);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Drive,20.0,2)' at line 1
+MariaDB [csd2204w18]> insert into d10_v1 (Code,Name,Price,Manufacturer) values (14,'CD Drive',20,2);
+Query OK, 1 row affected (0.75 sec)
+
+MariaDB [csd2204w18]> select * from d10_v1;
++------+-----------------+-------+--------------+
+| Code | Name            | Price | Manufacturer |
++------+-----------------+-------+--------------+
+|    1 | Hard drive      |   240 |            5 |
+|    2 | Memory          |   120 |            6 |
+|    3 | ZIP drive       |   150 |            4 |
+|    4 | Floppy disk     |     5 |            6 |
+|    5 | Monitor         |   240 |            1 |
+|    6 | DVD drive       |   180 |            2 |
+|    7 | CD drive        |    90 |            2 |
+|    8 | Printer         |   270 |            3 |
+|    9 | Toner cartridge |    66 |            3 |
+|   10 | DVD burner      |   180 |            2 |
+|   11 | Printer         |    40 |            7 |
+|   12 | Toner cartridge |    54 |            7 |
+|   13 | DVD burner      |    78 |            7 |
+|   14 | CD Drive        |    20 |            2 |
++------+-----------------+-------+--------------+
+14 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> delete from d10_v1 where Code=14;
+Query OK, 1 row affected (0.23 sec)
+
+MariaDB [csd2204w18]> select * from d10_v1;
++------+-----------------+-------+--------------+
+| Code | Name            | Price | Manufacturer |
++------+-----------------+-------+--------------+
+|    1 | Hard drive      |   240 |            5 |
+|    2 | Memory          |   120 |            6 |
+|    3 | ZIP drive       |   150 |            4 |
+|    4 | Floppy disk     |     5 |            6 |
+|    5 | Monitor         |   240 |            1 |
+|    6 | DVD drive       |   180 |            2 |
+|    7 | CD drive        |    90 |            2 |
+|    8 | Printer         |   270 |            3 |
+|    9 | Toner cartridge |    66 |            3 |
+|   10 | DVD burner      |   180 |            2 |
+|   11 | Printer         |    40 |            7 |
+|   12 | Toner cartridge |    54 |            7 |
+|   13 | DVD burner      |    78 |            7 |
++------+-----------------+-------+--------------+
+13 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> create view d10_v1 as select products.code,products.name "product",manu.name "manufacturer" from manu INNER JOIN Products ON Products.Code=Manu.Code;
+ERROR 1050 (42S01): Table 'd10_v1' already exists
+MariaDB [csd2204w18]> create view d10_v8 as select products.code,products.name "product",manu.name "manufacturer" from manu INNER JOIN Products ON Products.Code=Manu.Code;
+Query OK, 0 rows affected (0.11 sec)
+
+MariaDB [csd2204w18]> select * from d10_v8;
++------+-----------------+-------------------+
+| code | product         | manufacturer      |
++------+-----------------+-------------------+
+|    1 | Hard drive      | Sony              |
+|    2 | Memory          | Creative Labs     |
+|    3 | ZIP drive       | Hewlett-Packard   |
+|    4 | Floppy disk     | Iomega            |
+|    5 | Monitor         | Fujitsu           |
+|    6 | DVD drive       | Winchester        |
+|    7 | CD drive        | moxDroid Labs Inc |
+|    8 | Printer         | Dell              |
+|    9 | Toner cartridge | Bell Labs         |
++------+-----------------+-------------------+
+9 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> insert into d10_v8 (Code,product,Manufacturer) values (10,'New System',HP);
+ERROR 1054 (42S22): Unknown column 'HP' in 'field list'
+MariaDB [csd2204w18]> insert into d10_v8 (Code,product,Manufacturer) values (10,'New System','HP');
+ERROR 1393 (HY000): Can not modify more than one base table through a join view 'csd2204w18.d10_v8'
+MariaDB [csd2204w18]> update d10_v8 set manufacturer='HP' where Code=7;
+Query OK, 1 row affected (0.06 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [csd2204w18]> select * from d10_v8;
++------+-----------------+-----------------+
+| code | product         | manufacturer    |
++------+-----------------+-----------------+
+|    1 | Hard drive      | Sony            |
+|    2 | Memory          | Creative Labs   |
+|    3 | ZIP drive       | Hewlett-Packard |
+|    4 | Floppy disk     | Iomega          |
+|    5 | Monitor         | Fujitsu         |
+|    6 | DVD drive       | Winchester      |
+|    7 | CD drive        | HP              |
+|    8 | Printer         | Dell            |
+|    9 | Toner cartridge | Bell Labs       |
++------+-----------------+-----------------+
+9 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> select * from products;
++------+-----------------+-------+--------------+
+| Code | Name            | Price | Manufacturer |
++------+-----------------+-------+--------------+
+|    1 | Hard drive      |   240 |            5 |
+|    2 | Memory          |   120 |            6 |
+|    3 | ZIP drive       |   150 |            4 |
+|    4 | Floppy disk     |     5 |            6 |
+|    5 | Monitor         |   240 |            1 |
+|    6 | DVD drive       |   180 |            2 |
+|    7 | CD drive        |    90 |            2 |
+|    8 | Printer         |   270 |            3 |
+|    9 | Toner cartridge |    66 |            3 |
+|   10 | DVD burner      |   180 |            2 |
+|   11 | Printer         |    40 |            7 |
+|   12 | Toner cartridge |    54 |            7 |
+|   13 | DVD burner      |    78 |            7 |
++------+-----------------+-------+--------------+
+13 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> delete from d10_v8 where Code=7;
+ERROR 1395 (HY000): Can not delete from join view 'csd2204w18.d10_v8'
+MariaDB [csd2204w18]> create or replace view v_today (NOW) AS Select NOW();
+Query OK, 0 rows affected (0.03 sec)
+
+MariaDB [csd2204w18]> select * from v_today;
++---------------------+
+| NOW                 |
++---------------------+
+| 2018-01-19 08:49:12 |
++---------------------+
+1 row in set (0.00 sec)
+
+MariaDB [csd2204w18]> drop view IF EXISTS v_today;
+Query OK, 0 rows affected (0.00 sec)
+
+MariaDB [csd2204w18]> exit
